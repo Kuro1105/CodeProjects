@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class Bingo
 {
-	// Track random number that has been displayed
+    // Track random number that has been displayed
     static int randNum;
     // Track player's card to make sure bingo called correctly
     static boolean displayed = false; 
