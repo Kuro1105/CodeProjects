@@ -47,12 +47,25 @@ public class Bingo
         JLabel display = new JLabel("AA");
         display.setFont(new Font("Times New Roman", Font.BOLD, 40));
         sub1.add(display);
+        
+        // Create panel for the random number
+        JPanel sub2 = new JPanel();
+        sub2.setPreferredSize(new Dimension(200, 600));
+        sub2.setBackground(Color.white);
+        sub2.setLayout(new FlowLayout());
+        
+        // Create a text area to display generated numbers
+        JTextArea numberHistory = new JTextArea();
+        numberHistory.setEditable(false);
+        numberHistory.setFont(new Font("Arial", Font.PLAIN, 20));
+        sub2.add(numberHistory);
+        sub1.add(sub2);
 
         // Create panel for the 5 by 5 cards
-        JPanel sub2 = new JPanel();
-        sub2.setPreferredSize(new Dimension(600, 600));
+        JPanel sub3 = new JPanel();
+        sub3.setPreferredSize(new Dimension(600, 600));
         // GridBagLayout arranged the "card" into grids
-        sub2.setLayout(new GridBagLayout());
+        sub3.setLayout(new GridBagLayout());
 
         // GridBagConstraints control the cards behavior 
         GridBagConstraints GBC = new GridBagConstraints();
@@ -73,7 +86,7 @@ public class Bingo
             GBC.gridx = i % 5;
             // row position
             GBC.gridy = i / 5;
-            sub2.add(buttons[i], GBC);
+            sub3.add(buttons[i], GBC);
         }
 
         JPanel inputPanel = new JPanel();
@@ -98,7 +111,7 @@ public class Bingo
         GBC.gridx = 0;
         GBC.gridy = 5;
         GBC.gridwidth = 5;
-        sub2.add(inputPanel, GBC);
+        sub3.add(inputPanel, GBC);
 
         insertButton.addActionListener(new ActionListener()
         {
@@ -128,7 +141,6 @@ public class Bingo
                             break;
                         }
                     }
-
                     if (CardsFilled(buttons))
                     {
                     	// Disable INSERT button after filling
@@ -136,7 +148,6 @@ public class Bingo
                         // Enable NEXT button after filling
                         nextButton.setEnabled(true); 
                     }
-
                     input.setText("");
                     // using try-catch to make sure the number are properly inserted
                 } catch (NumberFormatException ex) {
@@ -162,6 +173,10 @@ public class Bingo
                 insertedNum.add(randNum); 
                 // Display the number
                 display.setText(String.valueOf(randNum)); 
+                
+                // Display the random number to the text area
+                numberHistory.append(String.valueOf(randNum));
+                numberHistory.append("\n");
 
                 // Highlight matching cards
                 for (JButton button : buttons)
@@ -180,6 +195,7 @@ public class Bingo
                     {
                     	displayed = true;
                         JOptionPane.showMessageDialog(frame, "Bingo!");
+                        nextButton.setEnabled(false);
                     }
                 }
                 else
@@ -191,7 +207,7 @@ public class Bingo
 
         mainPanel.add(title);
         mainPanel.add(sub1);
-        mainPanel.add(sub2);
+        mainPanel.add(sub3);
 
         frame.add(mainPanel);
         frame.setVisible(true);
